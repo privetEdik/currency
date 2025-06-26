@@ -1,7 +1,8 @@
 package main
 
 import (
-	"currency/internal/currency"
+	"currency/internal/handler"
+	"currency/internal/repository"
 	"database/sql"
 	_ "github.com/lib/pq"
 	"log"
@@ -21,8 +22,8 @@ func main() {
 		log.Fatal("Failed to initialize database", err)
 	}
 
-	repo := currency.NewRepository(db)
-	handler := currency.NewHandler(repo)
+	repo := repository.NewRepository(db)
+	handler := handler.NewHandler(repo)
 
 	http.HandleFunc("/currency", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {

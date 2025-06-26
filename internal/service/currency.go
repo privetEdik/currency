@@ -1,30 +1,31 @@
-package currency
+package service
 
 import (
+	"currency/internal/model"
 	"errors"
 	"sync"
 )
 
 type Service struct {
 	mu         sync.Mutex
-	currencies []Currency
+	currencies []model.Currency
 	nextID     int
 }
 
 func NewService() *Service {
 	return &Service{
-		currencies: []Currency{},
+		currencies: []model.Currency{},
 		nextID:     1,
 	}
 }
 
-func (s *Service) GetAll() []Currency {
+func (s *Service) GetAll() []model.Currency {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return s.currencies
 }
 
-func (s *Service) GetByCode(code string) (*Currency, error) {
+func (s *Service) GetByCode(code string) (*model.Currency, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -36,7 +37,7 @@ func (s *Service) GetByCode(code string) (*Currency, error) {
 	return nil, errors.New("currency not found")
 }
 
-func (s *Service) Add(c Currency) Currency {
+func (s *Service) Add(c model.Currency) model.Currency {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

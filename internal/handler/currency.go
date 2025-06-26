@@ -1,16 +1,18 @@
-package currency
+package handler
 
 import (
+	"currency/internal/model"
+	"currency/internal/repository"
 	"encoding/json"
 	"net/http"
 	"strings"
 )
 
 type Handler struct {
-	repo *Repository
+	repo *repository.Repository
 }
 
-func NewHandler(repo *Repository) *Handler {
+func NewHandler(repo *repository.Repository) *Handler {
 	return &Handler{repo: repo}
 }
 func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +52,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c := Currency{
+	c := model.Currency{
 		Code: code,
 		Name: name,
 		Sign: sign,
